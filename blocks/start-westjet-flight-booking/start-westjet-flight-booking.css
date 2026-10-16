@@ -1,0 +1,400 @@
+@charset "UTF-8";
+
+.start-westjet-flight-booking {
+    --colors-surface: #fff;
+    --colors-surface-secondary: #f9f9f9;
+    --colors-text: #0d0d0d;
+    --colors-text-secondary: #5d5d5d;
+    --colors-text-tertiary: #8f8f8f;
+    --colors-border: rgb(13 13 13 / 10%);
+    --colors-focus-ring: #0169cc;
+    --colors-surface-dark: #212121;
+    --colors-surface-secondary-dark: #181818;
+    --colors-text-dark: #fff;
+    --colors-text-secondary-dark: #afafaf;
+    --colors-text-tertiary-dark: #8f8f8f;
+    --colors-border-dark: rgb(255 255 255 / 12%);
+    --colors-focus-ring-dark: #0285ff;
+    --colors-brand-accent: #017f7c;
+    --colors-on-brand-accent: #fff;
+    --colors-brand-accent-dark: #309794;
+    --colors-on-brand-accent-dark: #0d0d0d;
+    --colors-brand-accent-hover: #12555b;
+    --colors-brand-accent-hover-dark: #5dbfbb;
+    --colors-brand-secondary: #cfff4e;
+    --colors-on-brand-secondary: #0d0d0d;
+    --typography-font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans", helvetica, arial, sans-serif;
+    --typography-title-font-size: 1rem;
+    --typography-title-font-weight: 600;
+    --typography-title-line-height: 1.5rem;
+    --typography-body-font-size: 1rem;
+    --typography-body-font-weight: 400;
+    --typography-body-line-height: 1.5rem;
+    --typography-body-small-font-size: 0.875rem;
+    --typography-body-small-line-height: 1.25rem;
+    --typography-caption-font-size: 0.75rem;
+    --typography-caption-line-height: 1.125rem;
+    --rounded-sm: 6px;
+    --rounded-md: 8px;
+    --rounded-lg: 10px;
+    --rounded-xl: 12px;
+    --rounded-2xl: 16px;
+    --rounded-full: 9999px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+
+    /* resolved theme roles */
+    --bg: var(--colors-surface);
+    --bg-2: var(--colors-surface-secondary);
+    --ink: var(--colors-text);
+    --ink-2: var(--colors-text-secondary);
+    --line: var(--colors-border);
+    --ring: var(--colors-focus-ring);
+    --accent: var(--colors-brand-accent);
+    --on-accent: var(--colors-on-brand-accent);
+    --accent-hover: var(--colors-brand-accent-hover);
+
+    color-scheme: light;
+  display: block;
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: none;
+  margin: 0 calc(50% - 50vw);
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--typography-font-family);
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .start-westjet-flight-booking:not([data-theme="light"]) {
+      --bg: var(--colors-surface-dark);
+      --bg-2: var(--colors-surface-secondary-dark);
+      --ink: var(--colors-text-dark);
+      --ink-2: var(--colors-text-secondary-dark);
+      --line: var(--colors-border-dark);
+      --ring: var(--colors-focus-ring-dark);
+      --accent: var(--colors-brand-accent-dark);
+      --on-accent: var(--colors-on-brand-accent-dark);
+      --accent-hover: var(--colors-brand-accent-hover-dark);
+
+      color-scheme: dark;
+  }
+}
+
+.start-westjet-flight-booking[data-theme="dark"] {
+    --bg: var(--colors-surface-dark);
+    --bg-2: var(--colors-surface-secondary-dark);
+    --ink: var(--colors-text-dark);
+    --ink-2: var(--colors-text-secondary-dark);
+    --line: var(--colors-border-dark);
+    --ring: var(--colors-focus-ring-dark);
+    --accent: var(--colors-brand-accent-dark);
+    --on-accent: var(--colors-on-brand-accent-dark);
+    --accent-hover: var(--colors-brand-accent-hover-dark);
+
+    color-scheme: dark;
+}
+
+.start-westjet-flight-booking[data-theme="light"] {
+  --bg: var(--colors-surface);
+  --bg-2: var(--colors-surface-secondary);
+  --ink: var(--colors-text);
+  --ink-2: var(--colors-text-secondary);
+  --line: var(--colors-border);
+  --ring: var(--colors-focus-ring);
+  --accent: var(--colors-brand-accent);
+  --on-accent: var(--colors-on-brand-accent);
+  --accent-hover: var(--colors-brand-accent-hover);
+
+  color-scheme: light;
+}
+
+.start-westjet-flight-booking *,
+.start-westjet-flight-booking *::before,
+.start-westjet-flight-booking *::after { box-sizing: border-box; }
+
+.start-westjet-flight-booking ::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.start-westjet-flight-booking .other-options[hidden] { display: none; }
+
+/* boilerplate collisions: header height, heading font/margins */
+.start-westjet-flight-booking header { height: auto; }
+
+.start-westjet-flight-booking footer {
+  height: auto;
+  background-color: transparent;
+  font-size: inherit;
+}
+
+.start-westjet-flight-booking h1, .start-westjet-flight-booking h2 {
+  font-family: var(--typography-font-family);
+  scroll-margin: 0;
+}
+
+  .start-westjet-flight-booking .booking-handoff {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  .start-westjet-flight-booking .handoff-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .start-westjet-flight-booking .handoff-title {
+    margin: 0;
+    font-size: var(--typography-title-font-size);
+    font-weight: var(--typography-title-font-weight);
+    line-height: var(--typography-title-line-height);
+    text-wrap: balance;
+  }
+
+  .start-westjet-flight-booking .handoff-sub {
+    margin: 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+
+  /* radio marker: the signature selection mark */
+  .start-westjet-flight-booking .radio-mark {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--rounded-full);
+    border: 2px solid var(--ink-2);
+    display: grid;
+    place-items: center;
+    margin-top: 2px;
+  }
+  .start-westjet-flight-booking .radio-mark.is-on { border-color: var(--accent); }
+
+  .start-westjet-flight-booking .radio-mark.is-on::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: var(--rounded-full);
+    background: var(--accent);
+  }
+
+  .start-westjet-flight-booking .selected-option {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border: 2px solid var(--accent);
+    border-radius: var(--rounded-xl);
+    background: var(--bg);
+  }
+
+  .start-westjet-flight-booking .option-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    min-width: 0;
+  }
+
+  .start-westjet-flight-booking .option-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .start-westjet-flight-booking .option-name {
+    margin: 0;
+    font-size: var(--typography-title-font-size);
+    font-weight: var(--typography-title-font-weight);
+    line-height: var(--typography-title-line-height);
+    overflow-wrap: anywhere;
+  }
+
+  .start-westjet-flight-booking .option-desc {
+    margin: 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+    color: var(--ink-2);
+  }
+
+  .start-westjet-flight-booking .badge, .start-westjet-flight-booking .badge-highlight {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 var(--spacing-sm);
+    border-radius: var(--rounded-full);
+    font-size: var(--typography-caption-font-size);
+    line-height: var(--typography-caption-line-height);
+    white-space: nowrap;
+  }
+
+  .start-westjet-flight-booking .badge {
+    background: var(--bg-2);
+    color: var(--accent);
+    border: 1px solid var(--line);
+  }
+
+  .start-westjet-flight-booking .badge-highlight {
+    background: var(--colors-brand-secondary);
+    color: var(--colors-on-brand-secondary);
+    font-weight: 600;
+  }
+
+  .start-westjet-flight-booking .feature-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .start-westjet-flight-booking .other-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .start-westjet-flight-booking .rail-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+  }
+
+  .start-westjet-flight-booking .rail-title {
+    margin: 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+    font-weight: var(--typography-title-font-weight);
+  }
+
+  .start-westjet-flight-booking .rail-count {
+    font-size: var(--typography-caption-font-size);
+    line-height: var(--typography-caption-line-height);
+    color: var(--ink-2);
+  }
+
+  .start-westjet-flight-booking .option-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 80%;
+    gap: var(--spacing-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0;
+    padding: 0 0 var(--spacing-xs);
+    list-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+
+  .start-westjet-flight-booking .option-rail > li {
+    scroll-snap-align: start;
+    display: flex;
+  }
+
+  .start-westjet-flight-booking .option-card {
+    all: unset;
+    box-sizing: border-box;
+    flex: 1;
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--line);
+    border-radius: var(--rounded-xl);
+    background: var(--bg);
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .start-westjet-flight-booking .option-card:hover {
+    border-color: var(--accent);
+    background: var(--bg-2);
+  }
+
+  .start-westjet-flight-booking .option-card:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .start-westjet-flight-booking .switch-hint {
+    font-size: var(--typography-caption-font-size);
+    line-height: var(--typography-caption-line-height);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .start-westjet-flight-booking .handoff-foot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-xs);
+    border-top: 1px solid var(--line);
+  }
+
+  .start-westjet-flight-booking .fine-print {
+    margin: var(--spacing-sm) 0 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+    color: var(--ink-2);
+  }
+
+  .start-westjet-flight-booking .button-primary {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 var(--spacing-lg);
+    border-radius: var(--rounded-full);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--typography-font-family);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+    font-weight: 600;
+    cursor: pointer;
+    align-self: stretch;
+    transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .start-westjet-flight-booking .button-primary:hover { background: var(--accent-hover); }
+
+  .start-westjet-flight-booking .button-primary:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (width >= 561px) {
+    .start-westjet-flight-booking .option-rail { grid-auto-columns: calc((100% - var(--spacing-sm)) / 2); }
+    .start-westjet-flight-booking .button-primary { align-self: flex-end; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .start-westjet-flight-booking .option-card, .start-westjet-flight-booking .button-primary { transition: none; }
+  }
+
+.start-westjet-flight-booking .empty-state {
+  margin: 0;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--ink-2);
+}
