@@ -1,0 +1,554 @@
+@charset "UTF-8";
+
+.compare-westjet-fares {
+  --colors-surface: #fff;
+  --colors-surface-secondary: #f9f9f9;
+  --colors-text: #0d0d0d;
+  --colors-text-secondary: #5d5d5d;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(13 13 13 / 10%);
+  --colors-focus-ring: #0169cc;
+  --colors-surface-dark: #212121;
+  --colors-surface-secondary-dark: #181818;
+  --colors-text-dark: #fff;
+  --colors-text-secondary-dark: #afafaf;
+  --colors-text-tertiary-dark: #8f8f8f;
+  --colors-border-dark: rgb(255 255 255 / 12%);
+  --colors-focus-ring-dark: #0285ff;
+  --colors-brand-accent: #017f7c;
+  --colors-on-brand-accent: #fff;
+  --colors-brand-accent-dark: #309794;
+  --colors-on-brand-accent-dark: #0d0d0d;
+  --colors-brand-accent-hover: #12555b;
+  --colors-brand-accent-hover-dark: #5dbfbb;
+  --colors-brand-secondary: #cfff4e;
+  --colors-on-brand-secondary: #0d0d0d;
+  --typography-font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans", helvetica, arial, sans-serif;
+  --typography-title-font-size: 1rem;
+  --typography-title-font-weight: 600;
+  --typography-title-line-height: 1.5rem;
+  --typography-body-font-size: 1rem;
+  --typography-body-font-weight: 400;
+  --typography-body-line-height: 1.5rem;
+  --typography-body-small-font-size: 0.875rem;
+  --typography-body-small-line-height: 1.25rem;
+  --typography-caption-font-size: 0.75rem;
+  --typography-caption-line-height: 1.125rem;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 10px;
+  --rounded-xl: 12px;
+  --rounded-2xl: 16px;
+  --rounded-full: 9999px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --components-button-height: 36px;
+  --components-badge-height: 22px;
+
+  /* Active theme roles: light by default */
+  --role-surface: var(--colors-surface);
+  --role-surface-secondary: var(--colors-surface-secondary);
+  --role-text: var(--colors-text);
+  --role-text-secondary: var(--colors-text-secondary);
+  --role-border: var(--colors-border);
+  --role-focus-ring: var(--colors-focus-ring);
+  --role-accent: var(--colors-brand-accent);
+  --role-on-accent: var(--colors-on-brand-accent);
+  --role-accent-hover: var(--colors-brand-accent-hover);
+
+  color-scheme: light;
+  margin: 0;
+  background: var(--role-surface);
+  color: var(--role-text);
+  font-family: var(--typography-font-family);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  text-size-adjust: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .compare-westjet-fares:not([data-theme="light"]) {
+    --role-surface: var(--colors-surface-dark);
+    --role-surface-secondary: var(--colors-surface-secondary-dark);
+    --role-text: var(--colors-text-dark);
+    --role-text-secondary: var(--colors-text-secondary-dark);
+    --role-border: var(--colors-border-dark);
+    --role-focus-ring: var(--colors-focus-ring-dark);
+    --role-accent: var(--colors-brand-accent-dark);
+    --role-on-accent: var(--colors-on-brand-accent-dark);
+    --role-accent-hover: var(--colors-brand-accent-hover-dark);
+
+    color-scheme: dark;
+  }
+}
+
+.compare-westjet-fares[data-theme="dark"] {
+  --role-surface: var(--colors-surface-dark);
+  --role-surface-secondary: var(--colors-surface-secondary-dark);
+  --role-text: var(--colors-text-dark);
+  --role-text-secondary: var(--colors-text-secondary-dark);
+  --role-border: var(--colors-border-dark);
+  --role-focus-ring: var(--colors-focus-ring-dark);
+  --role-accent: var(--colors-brand-accent-dark);
+  --role-on-accent: var(--colors-on-brand-accent-dark);
+  --role-accent-hover: var(--colors-brand-accent-hover-dark);
+
+  color-scheme: dark;
+}
+
+.compare-westjet-fares *,
+.compare-westjet-fares *::before,
+.compare-westjet-fares *::after {
+  box-sizing: border-box;
+}
+
+.compare-westjet-fares ::selection {
+  background: var(--role-accent);
+  color: var(--role-on-accent);
+}
+
+.compare-westjet-fares .fare-compare {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+/* Header band: fixed first fare and the second-fare picker */
+.compare-westjet-fares .compare-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--spacing-md) var(--spacing-lg);
+  align-items: end;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.compare-westjet-fares .fare-fixed {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 0;
+}
+
+.compare-westjet-fares .fare-name {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-family: inherit;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+}
+
+.compare-westjet-fares .fare-versus {
+  color: var(--role-text-secondary);
+  font-weight: var(--typography-body-font-weight);
+}
+
+.compare-westjet-fares .fare-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compare-westjet-fares .badge {
+  display: inline-flex;
+  align-items: center;
+  height: var(--components-badge-height);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--rounded-full);
+  background: var(--role-surface-secondary);
+  border: 1px solid var(--role-border);
+  color: var(--role-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  white-space: nowrap;
+}
+
+.compare-westjet-fares .compare-pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.compare-westjet-fares .pick-label {
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+}
+
+.compare-westjet-fares .pick-control {
+  position: relative;
+}
+
+.compare-westjet-fares .pick-select {
+  appearance: none;
+  width: 100%;
+  height: var(--components-button-height);
+  margin: 0;
+  padding: 0 calc(var(--spacing-xl) + var(--spacing-md)) 0 var(--spacing-md);
+  border: 1px solid var(--role-border);
+  border-radius: var(--rounded-full);
+  background: var(--role-surface-secondary);
+  color: var(--role-text);
+  font: inherit;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  cursor: pointer;
+}
+
+.compare-westjet-fares .pick-select:hover {
+  border-color: var(--role-text-secondary);
+}
+
+.compare-westjet-fares .pick-select:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.compare-westjet-fares .pick-chevron {
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  color: var(--role-text-secondary);
+  pointer-events: none;
+}
+
+.compare-westjet-fares .pick-hint {
+  display: none;
+  margin: 0;
+  color: var(--role-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+}
+
+.compare-westjet-fares .pick-status,
+.compare-westjet-fares .pick-empty,
+.compare-westjet-fares .compare-message {
+  margin: 0;
+  color: var(--role-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.compare-westjet-fares .pick-status[hidden] {
+  display: none;
+}
+
+/* Ledger: grouped benefit sections inside one bounded container */
+.compare-westjet-fares .ledger {
+  position: relative;
+  max-height: 552px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--role-border);
+  border-radius: var(--rounded-xl);
+  background: var(--role-surface);
+  scrollbar-width: thin;
+  scrollbar-color: var(--role-border) transparent;
+}
+
+.compare-westjet-fares .pair-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--role-border);
+  background: var(--role-surface);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-weight: var(--typography-title-font-weight);
+}
+
+.compare-westjet-fares .pair-head-label {
+  display: none;
+  color: var(--role-text-secondary);
+}
+
+.compare-westjet-fares .ledger-group + .ledger-group {
+  border-top: 1px solid var(--role-border);
+}
+
+.compare-westjet-fares .group-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 44px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--role-surface-secondary);
+  cursor: pointer;
+  list-style: none;
+}
+
+.compare-westjet-fares .group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.compare-westjet-fares .group-summary:focus-visible {
+  outline: 2px solid var(--role-focus-ring);
+  outline-offset: -2px;
+}
+
+.compare-westjet-fares .group-name {
+  flex: 0 1 auto;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+}
+
+.compare-westjet-fares .group-tally {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--role-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.compare-westjet-fares .group-chevron {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: var(--role-text-secondary);
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.compare-westjet-fares .group-summary > .group-chevron:nth-child(2) {
+  margin-left: auto;
+}
+
+.compare-westjet-fares .ledger-group[open] > .group-summary .group-chevron {
+  transform: rotate(180deg);
+}
+
+.compare-westjet-fares .ledger-group[open] > .group-summary {
+  border-bottom: 1px solid var(--role-border);
+}
+
+.compare-westjet-fares .benefit-list {
+  margin: 0;
+  padding: 0 var(--spacing-md);
+}
+
+.compare-westjet-fares .benefit-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.compare-westjet-fares .benefit-row.is-pair {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--spacing-xs) var(--spacing-md);
+}
+
+.compare-westjet-fares .benefit-row + .benefit-row {
+  border-top: 1px solid var(--role-border);
+}
+
+.compare-westjet-fares .benefit-label {
+  margin: 0;
+  color: var(--role-text-secondary);
+}
+
+.compare-westjet-fares .benefit-row.is-pair .benefit-label {
+  grid-column: 1 / -1;
+}
+
+.compare-westjet-fares .differs-mark {
+  display: inline-block;
+  margin-left: var(--spacing-sm);
+  padding: 0 var(--spacing-xs);
+  border: 1px solid var(--role-border);
+  border-radius: var(--rounded-sm);
+  color: var(--role-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  white-space: nowrap;
+}
+
+.compare-westjet-fares .benefit-value {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin: 0;
+  color: var(--role-text);
+}
+
+.compare-westjet-fares .benefit-value.is-absent {
+  color: var(--role-text-secondary);
+}
+
+.compare-westjet-fares .status-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.compare-westjet-fares .fare-about {
+  margin: 0;
+  padding: var(--spacing-md);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  max-width: 70ch;
+}
+
+/* Actions */
+.compare-westjet-fares .compare-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.compare-westjet-fares .compare-actions > * {
+  flex: 1 1 auto;
+}
+
+.compare-westjet-fares .button-primary,
+.compare-westjet-fares .button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-height: var(--components-button-height);
+  max-width: 100%;
+  margin: 0;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--rounded-full);
+  font: inherit;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.compare-westjet-fares .button-primary {
+  border: 0;
+  background: var(--role-accent);
+  color: var(--role-on-accent);
+}
+
+.compare-westjet-fares .button-primary:hover {
+  background: var(--role-accent-hover);
+  color: var(--role-on-accent);
+}
+
+.compare-westjet-fares .button-secondary {
+  border: 1px solid var(--role-border);
+  background: var(--role-surface-secondary);
+  color: var(--role-accent);
+}
+
+.compare-westjet-fares a.button-secondary {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.compare-westjet-fares .button-secondary:hover {
+  border-color: var(--role-text-secondary);
+  color: var(--role-accent);
+}
+
+.compare-westjet-fares .button-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.compare-westjet-fares .pick-select:focus-visible,
+.compare-westjet-fares .button-primary:focus-visible,
+.compare-westjet-fares .button-secondary:focus-visible,
+.compare-westjet-fares .ledger:focus-visible {
+  outline: 2px solid var(--role-focus-ring);
+  outline-offset: 2px;
+}
+
+.compare-westjet-fares .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (width >= 561px) {
+  .compare-westjet-fares .compare-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .compare-westjet-fares .fare-fixed {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .compare-westjet-fares .pick-hint {
+    display: block;
+  }
+
+  .compare-westjet-fares .group-summary {
+    gap: var(--spacing-sm);
+  }
+
+  .compare-westjet-fares .benefit-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .compare-westjet-fares .compare-actions > * {
+    flex: 0 0 auto;
+  }
+
+  .compare-westjet-fares .pair-head,
+  .compare-westjet-fares .benefit-row.is-pair {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .compare-westjet-fares .pair-head-label {
+    display: block;
+  }
+
+  .compare-westjet-fares .benefit-row.is-pair .benefit-label {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compare-westjet-fares .group-chevron,
+  .compare-westjet-fares .button-primary,
+  .compare-westjet-fares .button-secondary {
+    transition: none;
+  }
+}
