@@ -1,0 +1,329 @@
+@charset "UTF-8";
+
+.check-westjet-flight-status {
+  --colors-surface: #fff;
+  --colors-surface-secondary: #f9f9f9;
+  --colors-text: #0d0d0d;
+  --colors-text-secondary: #5d5d5d;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(13 13 13 / 10%);
+  --colors-focus-ring: #0169cc;
+  --colors-brand-accent: #017f7c;
+  --colors-on-brand-accent: #fff;
+  --colors-brand-accent-hover: #12555b;
+  --colors-brand-secondary: #cfff4e;
+  --colors-on-brand-secondary: #0d0d0d;
+  --typography-font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans", helvetica, arial, sans-serif;
+  --typography-title-font-size: 1rem;
+  --typography-title-font-weight: 600;
+  --typography-title-line-height: 1.5rem;
+  --typography-body-font-size: 1rem;
+  --typography-body-font-weight: 400;
+  --typography-body-line-height: 1.5rem;
+  --typography-body-small-font-size: 0.875rem;
+  --typography-body-small-line-height: 1.25rem;
+  --typography-caption-font-size: 0.75rem;
+  --typography-caption-line-height: 1.125rem;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 10px;
+  --rounded-xl: 12px;
+  --rounded-2xl: 16px;
+  --rounded-full: 9999px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+
+  color-scheme: light;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin: 0;
+  padding: var(--spacing-lg) 0;
+  background: var(--colors-surface);
+  color: var(--colors-text);
+  font-family: var(--typography-font-family);
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .check-westjet-flight-status:not([data-theme="light"]) {
+    --colors-surface: #212121;
+    --colors-surface-secondary: #181818;
+    --colors-text: #fff;
+    --colors-text-secondary: #afafaf;
+    --colors-text-tertiary: #8f8f8f;
+    --colors-border: rgb(255 255 255 / 12%);
+    --colors-focus-ring: #0285ff;
+    --colors-brand-accent: #309794;
+    --colors-on-brand-accent: #0d0d0d;
+    --colors-brand-accent-hover: #5dbfbb;
+
+    color-scheme: dark;
+  }
+}
+
+.check-westjet-flight-status[data-theme="dark"] {
+  --colors-surface: #212121;
+  --colors-surface-secondary: #181818;
+  --colors-text: #fff;
+  --colors-text-secondary: #afafaf;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(255 255 255 / 12%);
+  --colors-focus-ring: #0285ff;
+  --colors-brand-accent: #309794;
+  --colors-on-brand-accent: #0d0d0d;
+  --colors-brand-accent-hover: #5dbfbb;
+
+  color-scheme: dark;
+}
+
+.check-westjet-flight-status *,
+.check-westjet-flight-status *::before,
+.check-westjet-flight-status *::after {
+  box-sizing: border-box;
+}
+
+.check-westjet-flight-status ::selection {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+.check-westjet-flight-status .status-head,
+.check-westjet-flight-status .answer-note {
+  padding: 0 var(--spacing-lg);
+}
+
+.check-westjet-flight-status .status-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: auto;
+  margin: 0;
+}
+
+.check-westjet-flight-status .status-title {
+  margin: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  scroll-margin: 0;
+}
+
+.check-westjet-flight-status .status-meta {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.check-westjet-flight-status .status-meta time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.check-westjet-flight-status .meta-sep {
+  padding: 0 var(--spacing-xs);
+}
+
+.check-westjet-flight-status .meta-count {
+  white-space: nowrap;
+}
+
+.check-westjet-flight-status .answer-note {
+  margin: 0;
+  color: var(--colors-text);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.check-westjet-flight-status .record-index {
+  margin: 0;
+  padding: 0;
+}
+
+.check-westjet-flight-status .record-index ol {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 2px var(--spacing-lg) var(--spacing-xs);
+  overflow-x: auto;
+  scroll-padding: 0 var(--spacing-lg);
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.check-westjet-flight-status .record-index li {
+  flex: none;
+}
+
+.check-westjet-flight-status .index-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-height: 32px;
+  margin: 0;
+  padding: 0 var(--spacing-md) 0 var(--spacing-xs);
+  border: 1px solid var(--colors-border);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface);
+  color: var(--colors-text);
+  font-family: inherit;
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  text-align: start;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.check-westjet-flight-status .index-chip:hover {
+  background: var(--colors-surface-secondary);
+}
+
+.check-westjet-flight-status .chip-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-secondary);
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-variant-numeric: tabular-nums;
+}
+
+.check-westjet-flight-status .index-chip[aria-current="true"] {
+  border-color: var(--colors-brand-accent);
+  color: var(--colors-brand-accent);
+  font-weight: var(--typography-title-font-weight);
+}
+
+.check-westjet-flight-status .index-chip[aria-current="true"] .chip-num {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+.check-westjet-flight-status .index-chip:focus-visible {
+  outline: 2px solid var(--colors-focus-ring);
+  outline-offset: 2px;
+}
+
+.check-westjet-flight-status .status-track {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 82%;
+  gap: var(--spacing-md);
+  margin: 0;
+  padding: 0 var(--spacing-lg) var(--spacing-xs);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 var(--spacing-lg);
+  scroll-behavior: smooth;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-border) transparent;
+}
+
+.check-westjet-flight-status .status-track:focus-visible {
+  outline: 2px solid var(--colors-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (width >= 600px) {
+  .check-westjet-flight-status .status-track {
+    grid-auto-columns: calc((100% - var(--spacing-lg) * 2 - var(--spacing-md)) / 2.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check-westjet-flight-status .status-track {
+    scroll-behavior: auto;
+  }
+
+  .check-westjet-flight-status .index-chip {
+    transition: none;
+  }
+}
+
+.check-westjet-flight-status .status-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  min-width: 0;
+  padding: var(--spacing-md);
+  border: 1px solid var(--colors-border);
+  border-radius: var(--rounded-xl);
+  background: var(--colors-surface);
+  scroll-snap-align: start;
+  scroll-margin-top: var(--spacing-lg);
+}
+
+.check-westjet-flight-status .card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.check-westjet-flight-status .card-name {
+  margin: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  overflow-wrap: anywhere;
+  scroll-margin: 0;
+}
+
+.check-westjet-flight-status .card-pos {
+  flex: none;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.check-westjet-flight-status .card-desc {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  overflow-wrap: anywhere;
+}
+
+.check-westjet-flight-status .card-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin: auto 0 0;
+  padding: var(--spacing-xs) 0 0;
+  list-style: none;
+}
+
+.check-westjet-flight-status .badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-secondary);
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+}
