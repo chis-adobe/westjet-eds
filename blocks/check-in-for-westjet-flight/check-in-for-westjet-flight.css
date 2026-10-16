@@ -1,0 +1,465 @@
+@charset "UTF-8";
+
+.check-in-for-westjet-flight {
+  --colors-surface: #fff;
+  --colors-surface-secondary: #f9f9f9;
+  --colors-text: #0d0d0d;
+  --colors-text-secondary: #5d5d5d;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(13 13 13 / 10%);
+  --colors-focus-ring: #0169cc;
+  --colors-brand-accent: #017f7c;
+  --colors-on-brand-accent: #fff;
+  --colors-brand-accent-hover: #12555b;
+  --colors-brand-secondary: #cfff4e;
+  --colors-on-brand-secondary: #0d0d0d;
+  --typography-title-font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans", helvetica, arial, sans-serif;
+  --typography-title-font-size: 1rem;
+  --typography-title-font-weight: 600;
+  --typography-title-line-height: 1.5rem;
+  --typography-body-font-size: 1rem;
+  --typography-body-line-height: 1.5rem;
+  --typography-body-small-font-size: 0.875rem;
+  --typography-body-small-line-height: 1.25rem;
+  --typography-caption-font-size: 0.75rem;
+  --typography-caption-line-height: 1.125rem;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 10px;
+  --rounded-xl: 12px;
+  --rounded-full: 9999px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --components-button-primary-height: 36px;
+  --components-badge-height: 22px;
+
+  display: block;
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0 calc(50% - 50vw);
+  padding: 0;
+  background: var(--colors-surface);
+  color: var(--colors-text);
+  font-family: var(--typography-title-font-family);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  text-size-adjust: 100%;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  .check-in-for-westjet-flight:not([data-theme="light"]) {
+    --colors-surface: #212121;
+    --colors-surface-secondary: #181818;
+    --colors-text: #fff;
+    --colors-text-secondary: #afafaf;
+    --colors-text-tertiary: #8f8f8f;
+    --colors-border: rgb(255 255 255 / 12%);
+    --colors-focus-ring: #0285ff;
+    --colors-brand-accent: #309794;
+    --colors-on-brand-accent: #0d0d0d;
+    --colors-brand-accent-hover: #5dbfbb;
+
+    color-scheme: dark;
+  }
+}
+
+.check-in-for-westjet-flight[data-theme="dark"] {
+  --colors-surface: #212121;
+  --colors-surface-secondary: #181818;
+  --colors-text: #fff;
+  --colors-text-secondary: #afafaf;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(255 255 255 / 12%);
+  --colors-focus-ring: #0285ff;
+  --colors-brand-accent: #309794;
+  --colors-on-brand-accent: #0d0d0d;
+  --colors-brand-accent-hover: #5dbfbb;
+
+  color-scheme: dark;
+}
+
+.check-in-for-westjet-flight *,
+.check-in-for-westjet-flight *::before,
+.check-in-for-westjet-flight *::after {
+  box-sizing: border-box;
+}
+
+.check-in-for-westjet-flight ::selection {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+.check-in-for-westjet-flight .checkin-widget {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Scoped resets against boilerplate globals (header, h2/h3, p/dl/ol/ul, a, button) */
+.check-in-for-westjet-flight header,
+.check-in-for-westjet-flight footer {
+  height: auto;
+}
+
+.check-in-for-westjet-flight h2,
+.check-in-for-westjet-flight h3,
+.check-in-for-westjet-flight p,
+.check-in-for-westjet-flight dl,
+.check-in-for-westjet-flight ol,
+.check-in-for-westjet-flight ul {
+  margin: 0;
+}
+
+.check-in-for-westjet-flight h2,
+.check-in-for-westjet-flight h3 {
+  font-family: inherit;
+  scroll-margin: 0;
+}
+
+.check-in-for-westjet-flight a:any-link {
+  overflow-wrap: normal;
+}
+
+.check-in-for-westjet-flight .widget-head,
+.check-in-for-westjet-flight .method-index,
+.check-in-for-westjet-flight .widget-actions,
+.check-in-for-westjet-flight .widget-empty {
+  padding: 0 var(--spacing-lg);
+}
+
+.check-in-for-westjet-flight .widget-title {
+  margin: 0;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  text-wrap: balance;
+}
+
+.check-in-for-westjet-flight .widget-meta {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+/* Index strip: every method name, linked to its card */
+.check-in-for-westjet-flight .method-index ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin: -3px;
+  padding: 3px;
+  list-style: none;
+
+  /* Four pill rows; longer indexes scroll inside instead of growing the widget */
+  max-height: calc(4 * 28px + 3 * var(--spacing-sm) + 6px);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+}
+
+.check-in-for-westjet-flight .index-link,
+.check-in-for-westjet-flight .index-link:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-height: 28px;
+  padding: 0 var(--spacing-md) 0 var(--spacing-xs);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-secondary);
+  border: 1px solid var(--colors-border);
+  color: var(--colors-text);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  text-decoration: none;
+  transition: border-color 160ms ease-out;
+}
+
+.check-in-for-westjet-flight .index-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface);
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: 1;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.check-in-for-westjet-flight .index-link:hover {
+  border-color: var(--colors-brand-accent);
+  color: var(--colors-text);
+  text-decoration: none;
+}
+
+/* Carousel */
+.check-in-for-westjet-flight .method-rail {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--spacing-lg);
+  padding: 0 var(--spacing-lg) var(--spacing-sm);
+  margin: 0;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-border) transparent;
+}
+
+.check-in-for-westjet-flight .method-rail:focus-visible {
+  outline: 2px solid var(--colors-focus-ring);
+  outline-offset: -2px;
+  border-radius: var(--rounded-xl);
+}
+
+.check-in-for-westjet-flight .method-card {
+  flex: 0 0 min(86%, 344px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--colors-border);
+  border-radius: var(--rounded-xl);
+  background: var(--colors-surface);
+  scroll-margin-inline: var(--spacing-lg);
+}
+
+.check-in-for-westjet-flight .method-card.is-target {
+  border-color: var(--colors-brand-accent);
+}
+
+.check-in-for-westjet-flight .card-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+}
+
+.check-in-for-westjet-flight .card-num {
+  flex: none;
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.check-in-for-westjet-flight .method-name {
+  margin: 0;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  text-wrap: balance;
+}
+
+.check-in-for-westjet-flight .method-desc {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.check-in-for-westjet-flight .your-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-xs) var(--spacing-md);
+  margin: 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-secondary);
+  border: 1px solid var(--colors-border);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.check-in-for-westjet-flight .details-label {
+  grid-column: 1 / -1;
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-weight: 600;
+}
+
+.check-in-for-westjet-flight .your-details dt {
+  color: var(--colors-text-secondary);
+}
+
+.check-in-for-westjet-flight .your-details dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.check-in-for-westjet-flight .method-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: var(--spacing-md) 0 0;
+  border-top: 1px solid var(--colors-border);
+  list-style: none;
+  max-height: 15rem;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-text-secondary) transparent;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.check-in-for-westjet-flight .method-features:focus-visible {
+  outline: 2px solid var(--colors-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--rounded-sm);
+}
+
+.check-in-for-westjet-flight .method-features li {
+  position: relative;
+  padding-left: var(--spacing-lg);
+}
+
+.check-in-for-westjet-flight .method-features li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--rounded-full);
+  background: var(--colors-text-secondary);
+}
+
+.check-in-for-westjet-flight .method-link,
+.check-in-for-westjet-flight .method-link:any-link,
+.check-in-for-westjet-flight .method-link:hover {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 24px;
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* External-link arrow drawn with CSS (shaft plus corner) */
+.check-in-for-westjet-flight .link-icon {
+  position: relative;
+  flex: none;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+}
+
+.check-in-for-westjet-flight .link-icon::before {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  right: 2.5px;
+  width: 6px;
+  height: 6px;
+  border-top: 1.4px solid currentcolor;
+  border-right: 1.4px solid currentcolor;
+  border-top-right-radius: 1px;
+}
+
+.check-in-for-westjet-flight .link-icon::after {
+  content: "";
+  position: absolute;
+  top: 6.3px;
+  left: 1.6px;
+  width: 10.5px;
+  height: 1.4px;
+  border-radius: 1px;
+  background: currentcolor;
+  transform: rotate(-45deg);
+}
+
+/* Actions */
+.check-in-for-westjet-flight .widget-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.check-in-for-westjet-flight .btn,
+.check-in-for-westjet-flight .btn:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  height: var(--components-button-primary-height);
+  margin: 0;
+  padding: 0 var(--spacing-lg);
+  border: 0;
+  border-radius: var(--rounded-full);
+  font: inherit;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease-out;
+}
+
+.check-in-for-westjet-flight .btn-primary {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+.check-in-for-westjet-flight .btn-primary:hover {
+  background: var(--colors-brand-accent-hover);
+  color: var(--colors-on-brand-accent);
+}
+
+.check-in-for-westjet-flight .btn-secondary,
+.check-in-for-westjet-flight .btn-secondary:any-link,
+.check-in-for-westjet-flight .btn-secondary:hover {
+  background: var(--colors-surface-secondary);
+  color: var(--colors-text);
+  border: 1px solid var(--colors-border);
+  text-decoration: none;
+}
+
+.check-in-for-westjet-flight .btn-secondary:hover {
+  border-color: var(--colors-text-secondary);
+}
+
+.check-in-for-westjet-flight a:focus-visible,
+.check-in-for-westjet-flight button:focus-visible {
+  outline: 2px solid var(--colors-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .check-in-for-westjet-flight .method-rail {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check-in-for-westjet-flight .index-link,
+  .check-in-for-westjet-flight .btn {
+    transition: none;
+  }
+}
