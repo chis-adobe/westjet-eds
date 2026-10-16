@@ -1,0 +1,436 @@
+@charset "UTF-8";
+
+.find-westjet-flights {
+  --colors-surface: #fff;
+  --colors-surface-secondary: #f9f9f9;
+  --colors-text: #0d0d0d;
+  --colors-text-secondary: #5d5d5d;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(13 13 13 / 10%);
+  --colors-focus-ring: #0169cc;
+  --colors-surface-dark: #212121;
+  --colors-surface-secondary-dark: #181818;
+  --colors-text-dark: #fff;
+  --colors-text-secondary-dark: #afafaf;
+  --colors-text-tertiary-dark: #8f8f8f;
+  --colors-border-dark: rgb(255 255 255 / 12%);
+  --colors-focus-ring-dark: #0285ff;
+  --colors-brand-accent: #017f7c;
+  --colors-on-brand-accent: #fff;
+  --colors-brand-accent-dark: #309794;
+  --colors-on-brand-accent-dark: #0d0d0d;
+  --colors-brand-accent-hover: #12555b;
+  --colors-brand-accent-hover-dark: #5dbfbb;
+  --colors-brand-secondary: #cfff4e;
+  --colors-on-brand-secondary: #0d0d0d;
+  --typography-font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans", helvetica, arial, sans-serif;
+  --typography-title-font-size: 1rem;
+  --typography-title-font-weight: 600;
+  --typography-title-line-height: 1.5rem;
+  --typography-body-font-size: 1rem;
+  --typography-body-font-weight: 400;
+  --typography-body-line-height: 1.5rem;
+  --typography-body-small-font-size: 0.875rem;
+  --typography-body-small-line-height: 1.25rem;
+  --typography-caption-font-size: 0.75rem;
+  --typography-caption-line-height: 1.125rem;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 10px;
+  --rounded-xl: 12px;
+  --rounded-2xl: 16px;
+  --rounded-full: 9999px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --components-button-primary-height: 36px;
+  --components-badge-height: 22px;
+
+  /* Theme layer: light by default */
+  --theme-surface: var(--colors-surface);
+  --theme-surface-secondary: var(--colors-surface-secondary);
+  --theme-text: var(--colors-text);
+  --theme-text-secondary: var(--colors-text-secondary);
+  --theme-border: var(--colors-border);
+  --theme-focus-ring: var(--colors-focus-ring);
+  --theme-accent: var(--colors-brand-accent);
+  --theme-on-accent: var(--colors-on-brand-accent);
+  --theme-accent-hover: var(--colors-brand-accent-hover);
+
+  color-scheme: light;
+  display: block;
+  margin: 0;
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  font-family: var(--typography-font-family);
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .find-westjet-flights:not([data-theme="light"]) {
+    --theme-surface: var(--colors-surface-dark);
+    --theme-surface-secondary: var(--colors-surface-secondary-dark);
+    --theme-text: var(--colors-text-dark);
+    --theme-text-secondary: var(--colors-text-secondary-dark);
+    --theme-border: var(--colors-border-dark);
+    --theme-focus-ring: var(--colors-focus-ring-dark);
+    --theme-accent: var(--colors-brand-accent-dark);
+    --theme-on-accent: var(--colors-on-brand-accent-dark);
+    --theme-accent-hover: var(--colors-brand-accent-hover-dark);
+
+    color-scheme: dark;
+  }
+}
+
+.find-westjet-flights[data-theme="dark"] {
+  --theme-surface: var(--colors-surface-dark);
+  --theme-surface-secondary: var(--colors-surface-secondary-dark);
+  --theme-text: var(--colors-text-dark);
+  --theme-text-secondary: var(--colors-text-secondary-dark);
+  --theme-border: var(--colors-border-dark);
+  --theme-focus-ring: var(--colors-focus-ring-dark);
+  --theme-accent: var(--colors-brand-accent-dark);
+  --theme-on-accent: var(--colors-on-brand-accent-dark);
+  --theme-accent-hover: var(--colors-brand-accent-hover-dark);
+
+  color-scheme: dark;
+}
+
+.find-westjet-flights *,
+.find-westjet-flights *::before,
+.find-westjet-flights *::after {
+  box-sizing: border-box;
+}
+
+.find-westjet-flights ::selection {
+  background: var(--theme-accent);
+  color: var(--theme-on-accent);
+}
+
+/* Scoped resets for boilerplate globals (header height, heading and list margins) */
+.find-westjet-flights header,
+.find-westjet-flights h1,
+.find-westjet-flights h2,
+.find-westjet-flights p,
+.find-westjet-flights ul {
+  height: auto;
+  margin: 0;
+  font-family: inherit;
+  scroll-margin: 0;
+}
+
+.find-westjet-flights .flight-results {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Search recap */
+.find-westjet-flights .search-recap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.find-westjet-flights .route-title {
+  margin: 0;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.find-westjet-flights .route-pair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  white-space: nowrap;
+}
+
+.find-westjet-flights .route-arrow {
+  width: 16px;
+  height: 16px;
+  color: var(--theme-text-secondary);
+  flex: none;
+}
+
+.find-westjet-flights .recap-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-sm);
+}
+
+.find-westjet-flights .recap-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--rounded-full);
+  background: var(--theme-surface-secondary);
+  border: 1px solid var(--theme-border);
+  color: var(--theme-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  white-space: nowrap;
+}
+
+.find-westjet-flights .recap-chip time {
+  color: var(--theme-text);
+}
+
+.find-westjet-flights .chip-strong {
+  color: var(--theme-text);
+}
+
+/* Results header */
+.find-westjet-flights .results-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.find-westjet-flights .results-count {
+  margin: 0;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  color: var(--theme-text);
+}
+
+.find-westjet-flights .scroll-hint {
+  margin: 0;
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--theme-text-secondary);
+}
+
+.find-westjet-flights .empty-state {
+  margin: var(--spacing-sm) 0 0;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--theme-text-secondary);
+}
+
+/* Carousel */
+.find-westjet-flights .option-carousel {
+  --card-gap: var(--spacing-md);
+  --card-width: calc((100% - var(--card-gap)) / 1.12);
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--card-width);
+  gap: var(--card-gap);
+  margin: 0 calc(var(--spacing-lg) * -1);
+  padding: var(--spacing-xs) var(--spacing-lg) var(--spacing-md);
+  scroll-padding-inline: var(--spacing-lg);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-border) transparent;
+}
+
+.find-westjet-flights .option-carousel:focus-visible {
+  outline: 2px solid var(--theme-focus-ring);
+  outline-offset: -2px;
+  border-radius: var(--rounded-xl);
+}
+
+@media (width >= 600px) {
+  .find-westjet-flights .option-carousel {
+    --card-width: calc((100% - var(--card-gap) * 2) / 2.2);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .find-westjet-flights .option-carousel {
+    scroll-behavior: smooth;
+  }
+}
+
+.find-westjet-flights .option-card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--rounded-xl);
+  position: relative;
+}
+
+/* Stub row: the option code */
+.find-westjet-flights .option-stub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+}
+
+.find-westjet-flights .stub-label {
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--theme-text-secondary);
+}
+
+.find-westjet-flights .option-code {
+  display: inline-flex;
+  align-items: center;
+  height: var(--components-badge-height);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--rounded-full);
+  background: var(--theme-surface-secondary);
+  border: 1px solid var(--theme-border);
+  color: var(--theme-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-weight: var(--typography-title-font-weight);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Perforation between stub and body */
+.find-westjet-flights .option-perf {
+  position: relative;
+  height: 0;
+  border-top: 1px dashed var(--theme-border);
+  margin: 0 var(--spacing-md);
+}
+
+.find-westjet-flights .option-perf::before,
+.find-westjet-flights .option-perf::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--rounded-full);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+}
+
+.find-westjet-flights .option-perf::before {
+  left: calc(var(--spacing-md) * -1 - 7px);
+  clip-path: inset(0 0 0 50%);
+}
+
+.find-westjet-flights .option-perf::after {
+  right: calc(var(--spacing-md) * -1 - 7px);
+  clip-path: inset(0 50% 0 0);
+}
+
+.find-westjet-flights .option-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  flex: 1;
+}
+
+.find-westjet-flights .option-name {
+  margin: 0;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  overflow-wrap: anywhere;
+}
+
+.find-westjet-flights .option-description {
+  margin: 0;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--theme-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.find-westjet-flights .option-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.find-westjet-flights .option-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--theme-text);
+  overflow-wrap: anywhere;
+}
+
+.find-westjet-flights .feature-icon {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex: none;
+  color: var(--theme-text-secondary);
+}
+
+.find-westjet-flights .option-actions {
+  padding: 0 var(--spacing-md) var(--spacing-md);
+}
+
+.find-westjet-flights .button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--components-button-primary-height);
+  margin: 0;
+  padding: 0 var(--spacing-lg);
+  border: 0;
+  border-radius: var(--rounded-full);
+  background: var(--theme-accent);
+  color: var(--theme-on-accent);
+  font-family: inherit;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  cursor: pointer;
+}
+
+.find-westjet-flights .button-primary:hover {
+  background: var(--theme-accent-hover);
+}
+
+.find-westjet-flights .button-primary:focus-visible {
+  outline: 2px solid var(--theme-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .find-westjet-flights .button-primary {
+    transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.find-westjet-flights .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
