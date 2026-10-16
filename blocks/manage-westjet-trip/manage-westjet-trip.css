@@ -1,0 +1,540 @@
+@charset "UTF-8";
+
+.manage-westjet-trip {
+  --colors-surface: #fff;
+  --colors-surface-secondary: #f9f9f9;
+  --colors-text: #0d0d0d;
+  --colors-text-secondary: #5d5d5d;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(13 13 13 / 10%);
+  --colors-focus-ring: #0169cc;
+  --colors-brand-accent: #017f7c;
+  --colors-on-brand-accent: #fff;
+  --colors-brand-accent-hover: #12555b;
+  --colors-brand-secondary: #cfff4e;
+  --colors-on-brand-secondary: #0d0d0d;
+  --font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans", helvetica, arial, sans-serif;
+  --typography-title-font-size: 1rem;
+  --typography-title-font-weight: 600;
+  --typography-title-line-height: 1.5rem;
+  --typography-body-font-size: 1rem;
+  --typography-body-line-height: 1.5rem;
+  --typography-body-small-font-size: 0.875rem;
+  --typography-body-small-line-height: 1.25rem;
+  --typography-caption-font-size: 0.75rem;
+  --typography-caption-line-height: 1.125rem;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 10px;
+  --rounded-xl: 12px;
+  --rounded-2xl: 16px;
+  --rounded-full: 9999px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+
+  color-scheme: light;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin: 0;
+  padding: var(--spacing-lg);
+  background: var(--colors-surface);
+  color: var(--colors-text);
+  font-family: var(--font-family);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+}
+
+@media (prefers-color-scheme: dark) {
+  .manage-westjet-trip:not([data-theme="light"]) {
+    --colors-surface: #212121;
+    --colors-surface-secondary: #181818;
+    --colors-text: #fff;
+    --colors-text-secondary: #afafaf;
+    --colors-text-tertiary: #8f8f8f;
+    --colors-border: rgb(255 255 255 / 12%);
+    --colors-focus-ring: #0285ff;
+    --colors-brand-accent: #309794;
+    --colors-on-brand-accent: #0d0d0d;
+    --colors-brand-accent-hover: #5dbfbb;
+
+    color-scheme: dark;
+  }
+}
+
+.manage-westjet-trip[data-theme="dark"] {
+  --colors-surface: #212121;
+  --colors-surface-secondary: #181818;
+  --colors-text: #fff;
+  --colors-text-secondary: #afafaf;
+  --colors-text-tertiary: #8f8f8f;
+  --colors-border: rgb(255 255 255 / 12%);
+  --colors-focus-ring: #0285ff;
+  --colors-brand-accent: #309794;
+  --colors-on-brand-accent: #0d0d0d;
+  --colors-brand-accent-hover: #5dbfbb;
+
+  color-scheme: dark;
+}
+
+.manage-westjet-trip *,
+.manage-westjet-trip *::before,
+.manage-westjet-trip *::after {
+  box-sizing: border-box;
+}
+
+/* Scoped resets for unscoped boilerplate rules (header, h2/h3, p/ol/ul, a, img, button) */
+.manage-westjet-trip header,
+.manage-westjet-trip footer,
+.manage-westjet-trip nav,
+.manage-westjet-trip section {
+  height: auto;
+  margin: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.manage-westjet-trip h2,
+.manage-westjet-trip h3,
+.manage-westjet-trip p,
+.manage-westjet-trip ol,
+.manage-westjet-trip ul {
+  margin: 0;
+  font-family: var(--font-family);
+}
+
+.manage-westjet-trip h2,
+.manage-westjet-trip h3 {
+  scroll-margin: 0;
+}
+
+.manage-westjet-trip a:any-link {
+  overflow-wrap: normal;
+}
+
+.manage-westjet-trip ::selection {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+.manage-westjet-trip :focus-visible {
+  outline: 2px solid var(--colors-focus-ring);
+  outline-offset: 2px;
+}
+
+.manage-westjet-trip .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.manage-westjet-trip .widget-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.manage-westjet-trip .widget-title {
+  margin: 0;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  text-wrap: balance;
+}
+
+.manage-westjet-trip .widget-lookup {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.manage-westjet-trip .lookup-code {
+  color: var(--colors-text);
+  font-weight: var(--typography-title-font-weight);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.manage-westjet-trip .lookup-sep {
+  padding: 0 var(--spacing-xs);
+}
+
+.manage-westjet-trip .widget-message {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+/* Route rail: one stop per category, counts in the dots */
+.manage-westjet-trip .rail-list {
+  position: relative;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.manage-westjet-trip .rail-stop {
+  position: relative;
+  min-width: 0;
+}
+
+.manage-westjet-trip .rail-stop + .rail-stop::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: calc(-50% - var(--spacing-xs));
+  right: 50%;
+  height: 2px;
+  background: var(--colors-brand-accent);
+}
+
+.manage-westjet-trip .rail-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 24px;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--rounded-sm);
+}
+
+.manage-westjet-trip .rail-dot {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--colors-brand-accent);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface);
+  color: var(--colors-brand-accent);
+  font-weight: var(--typography-title-font-weight);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1), color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.manage-westjet-trip .rail-label {
+  text-wrap: balance;
+}
+
+.manage-westjet-trip .rail-link:hover {
+  color: var(--colors-text);
+  text-decoration: none;
+}
+
+.manage-westjet-trip .rail-link:hover .rail-dot {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+/* Carousel */
+.manage-westjet-trip .carousel {
+  margin: 0 calc(var(--spacing-lg) * -1);
+}
+
+.manage-westjet-trip .carousel-track {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin: 0;
+  padding: var(--spacing-xs) var(--spacing-lg) var(--spacing-md);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--spacing-lg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-border) transparent;
+  border-radius: var(--rounded-xl);
+}
+
+.manage-westjet-trip .carousel-track:focus-visible {
+  outline-offset: -2px;
+}
+
+.manage-westjet-trip .item {
+  flex: 0 0 min(300px, 84%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--colors-border);
+  border-radius: var(--rounded-xl);
+  background: var(--colors-surface);
+  scroll-snap-align: start;
+  scroll-margin-top: var(--spacing-lg);
+}
+
+.manage-westjet-trip .item:target,
+.manage-westjet-trip .item.is-target {
+  border-color: var(--colors-brand-accent);
+}
+
+.manage-westjet-trip .item-head {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.manage-westjet-trip .item-image {
+  flex: 0 0 104px;
+  width: 104px;
+  max-width: none;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--rounded-lg);
+  background: var(--colors-surface-secondary);
+}
+
+.manage-westjet-trip .item-image-empty {
+  display: flex;
+  padding: var(--spacing-sm);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--colors-border);
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+}
+
+.manage-westjet-trip .item-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.manage-westjet-trip .badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-secondary);
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  white-space: nowrap;
+}
+
+.manage-westjet-trip .item-name {
+  margin: 0;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  text-wrap: balance;
+}
+
+.manage-westjet-trip .item-description {
+  margin: 0;
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.manage-westjet-trip .item-details {
+  border-top: 1px solid var(--colors-border);
+  padding-top: var(--spacing-sm);
+}
+
+.manage-westjet-trip .details-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-height: 28px;
+  color: var(--colors-text);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--rounded-sm);
+}
+
+.manage-westjet-trip .details-summary::-webkit-details-marker {
+  display: none;
+}
+
+.manage-westjet-trip .details-summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  margin-right: var(--spacing-xs);
+  border-right: 2px solid var(--colors-text-secondary);
+  border-bottom: 2px solid var(--colors-text-secondary);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.manage-westjet-trip .item-details[open] .details-summary::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+.manage-westjet-trip .details-list {
+  max-height: 148px;
+  margin: var(--spacing-sm) 0 0;
+  padding: 0 var(--spacing-xs) 0 var(--spacing-lg);
+  overflow-y: auto;
+  color: var(--colors-text);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-border) transparent;
+  border-radius: var(--rounded-sm);
+}
+
+.manage-westjet-trip .details-list li + li {
+  margin-top: var(--spacing-sm);
+}
+
+.manage-westjet-trip .details-list li::marker {
+  color: var(--colors-brand-accent);
+}
+
+.manage-westjet-trip .item-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-top: auto;
+}
+
+.manage-westjet-trip .item-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--colors-brand-accent);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border-radius: var(--rounded-sm);
+}
+
+.manage-westjet-trip .item-link:hover {
+  color: var(--colors-brand-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.manage-westjet-trip .item-position {
+  color: var(--colors-text-secondary);
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Loading skeleton */
+.manage-westjet-trip .skeleton {
+  display: flex;
+  gap: var(--spacing-md);
+  overflow: hidden;
+}
+
+.manage-westjet-trip .skeleton-card {
+  flex: 0 0 min(300px, 84%);
+  height: 180px;
+  border: 1px solid var(--colors-border);
+  border-radius: var(--rounded-xl);
+  background: var(--colors-surface-secondary);
+}
+
+/* Actions */
+.manage-westjet-trip .widget-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.manage-westjet-trip .button-primary,
+.manage-westjet-trip .button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  height: 36px;
+  margin: 0;
+  padding: 0 var(--spacing-lg);
+  border: 0;
+  border-radius: var(--rounded-full);
+  font-family: var(--font-family);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  flex: 1 1 auto;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.manage-westjet-trip .button-primary {
+  background: var(--colors-brand-accent);
+  color: var(--colors-on-brand-accent);
+}
+
+.manage-westjet-trip .button-primary:hover {
+  background: var(--colors-brand-accent-hover);
+}
+
+.manage-westjet-trip .button-meta {
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.manage-westjet-trip .button-secondary {
+  background: var(--colors-surface-secondary);
+  color: var(--colors-text);
+  box-shadow: inset 0 0 0 1px var(--colors-border);
+}
+
+.manage-westjet-trip .button-secondary:hover {
+  background: var(--colors-border);
+}
+
+@media (width >= 600px) {
+  .manage-westjet-trip .item {
+    flex-basis: 320px;
+  }
+
+  .manage-westjet-trip .button-primary,
+  .manage-westjet-trip .button-secondary {
+    flex: 0 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manage-westjet-trip *,
+  .manage-westjet-trip *::before,
+  .manage-westjet-trip *::after {
+    transition: none !important;
+  }
+
+  .manage-westjet-trip .carousel-track {
+    scroll-behavior: auto;
+  }
+}
