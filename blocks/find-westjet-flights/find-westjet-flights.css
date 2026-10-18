@@ -423,6 +423,146 @@
   }
 }
 
+/* Price on the stub row */
+.find-westjet-flights .option-stub {
+  flex-wrap: wrap;
+}
+
+.find-westjet-flights .option-price {
+  margin-left: auto;
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  color: var(--theme-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Stacked card actions (Book + View details) */
+.find-westjet-flights .option-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.find-westjet-flights .button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--components-button-primary-height);
+  margin: 0;
+  padding: 0 var(--spacing-lg);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--rounded-full);
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  font-family: inherit;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  font-weight: var(--typography-title-font-weight);
+  cursor: pointer;
+}
+
+.find-westjet-flights .button-secondary:hover {
+  background: var(--theme-surface-secondary);
+}
+
+.find-westjet-flights .button-secondary:focus-visible,
+.find-westjet-flights a.button-primary:focus-visible {
+  outline: 2px solid var(--theme-focus-ring);
+  outline-offset: 2px;
+}
+
+.find-westjet-flights a.button-primary {
+  text-decoration: none;
+}
+
+/* Status line while fetching */
+.find-westjet-flights .results-status {
+  margin: 0;
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--theme-text-secondary);
+}
+
+/* Web search form */
+.find-westjet-flights .search-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--rounded-xl);
+  background: var(--theme-surface-secondary);
+}
+
+.find-westjet-flights .form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+@media (width >= 600px) {
+  .find-westjet-flights .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.find-westjet-flights .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.find-westjet-flights .form-field-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.find-westjet-flights .field-label {
+  font-size: var(--typography-caption-font-size);
+  line-height: var(--typography-caption-line-height);
+  color: var(--theme-text-secondary);
+}
+
+.find-westjet-flights .search-form input[type="text"],
+.find-westjet-flights .search-form input[type="date"],
+.find-westjet-flights .search-form input[type="number"],
+.find-westjet-flights .search-form select {
+  height: 36px;
+  padding: 0 var(--spacing-md);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--rounded-md);
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  font-family: inherit;
+  font-size: var(--typography-body-small-font-size);
+}
+
+.find-westjet-flights .search-form input:focus-visible,
+.find-westjet-flights .search-form select:focus-visible {
+  outline: 2px solid var(--theme-focus-ring);
+  outline-offset: 0;
+}
+
+.find-westjet-flights .form-actions {
+  display: flex;
+}
+
+.find-westjet-flights .form-actions .button-primary {
+  width: 100%;
+}
+
+@media (width >= 600px) {
+  .find-westjet-flights .form-actions .button-primary {
+    width: auto;
+    min-width: 180px;
+    margin-left: auto;
+  }
+}
+
 .find-westjet-flights .visually-hidden {
   position: absolute;
   width: 1px;
