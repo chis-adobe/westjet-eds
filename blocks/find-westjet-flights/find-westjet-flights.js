@@ -1,52 +1,37 @@
-const PREVIEW_RESULT = {
-  arguments: {
-    origin: 'YYC',
-    destination: 'YYZ',
-    departure_date: '2026-11-12',
-    return_date: '2026-11-16',
-    trip_type: 'round trip',
-    adult_count: 2,
-  },
-  records: [
-    {
-      id: 'placeholder-1',
-      name: 'Placeholder name 1',
-      description: 'Placeholder description 1',
-      features: [
-        'Placeholder feature 1',
-      ],
-      price: null,
-      image_url: null,
-      source_url: null,
-    },
-    {
-      id: 'placeholder-2',
-      name: 'Placeholder name 2',
-      description: 'Placeholder description 2',
-      features: [
-        'Placeholder feature 2',
-      ],
-      price: null,
-      image_url: null,
-      source_url: null,
-    },
-    {
-      id: 'placeholder-3',
-      name: 'Placeholder name 3',
-      description: 'Placeholder description 3',
-      features: [
-        'Placeholder feature 3',
-      ],
-      price: null,
-      image_url: null,
-      source_url: null,
-    },
-  ],
-};
+// FLYR lowest-fares table (xCheck v2 Tables API). Open CORS (ACAO: *), no key.
+// It is a fixed deals table, not a live shopping API, so only origin/destination
+// can filter it — dates, pax, points and trip type are display-only context.
+const FLYR_BASE = 'https://westjet-api.xcheck.co';
+const FLYR_TABLE_ID = '13664f55-01cb-4ed2-a752-d83228e33207';
+const FLYR_URL = `${FLYR_BASE}/v2/tables/${FLYR_TABLE_ID}`;
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let instanceCount = 0;
-const NBSP = '\u00a0';
+const NBSP = ' ';
+
+// Default search used for the direct-web/preview path (no LLM conversation to
+// supply arguments). Dates are computed at render time so they always sit in the
+// near future. Toronto (YYZ) -> Cancun (CUN) is a route the fares table serves.
+function iso(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function defaultArgs() {
+  const now = new Date();
+  const depart = new Date(now);
+  depart.setUTCDate(depart.getUTCDate() + 14);
+  const back = new Date(now);
+  back.setUTCDate(back.getUTCDate() + 28);
+  return {
+    origin: 'YYZ',
+    destination: 'CUN',
+    departure_date: iso(depart),
+    return_date: iso(back),
+    trip_type: 'round trip',
+    adult_count: 2,
+    use_points: false,
+  };
+}
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -99,6 +84,75 @@ function capitalize(value) {
   const text = String(value).trim();
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+// --- FLYR fetch + mapping -------------------------------------------------
+
+function codesFromDeeplink(url) {
+  try {
+    const u = new URL(url, FLYR_BASE);
+    return {
+      origin: (u.searchParams.get('origin') || '').trim().toUpperCase(),
+      destination: (u.searchParams.get('destination') || '').trim().toUpperCase(),
+    };
+  } catch (err) {
+    return { origin: '', destination: '' };
+  }
+}
+
+function decodeEntities(value) {
+  if (!hasText(value)) return '';
+  const txt = el('textarea');
+  txt.innerHTML = String(value);
+  return txt.value;
+}
+
+// Map one raw FLYR row into the record shape the card renderer expects, keeping
+// the IATA codes/cities around so we can filter without a second API call.
+function mapRow(row, index) {
+  const fromCity = decodeEntities(row.web_1);
+  const toCity = decodeEntities(row.web_2);
+  const dates = decodeEntities(row.web_3);
+  const codes = codesFromDeeplink(row.deeplink);
+  const code = codes.origin && codes.destination ? `${codes.origin}–${codes.destination}` : '';
+  return {
+    id: code || `fare-${index + 1}`,
+    name: fromCity && toCity ? `${fromCity} → ${toCity}` : fromCity || toCity,
+    description: dates,
+    price: hasText(row.price) ? decodeEntities(row.price) : null,
+    source_url: hasText(row.deeplink) ? String(row.deeplink) : null,
+    originCode: codes.origin,
+    destCode: codes.destination,
+    originCity: fromCity,
+    destCity: toCity,
+  };
+}
+
+async function fetchFlyrRecords() {
+  const response = await fetch(FLYR_URL, { headers: { accept: 'application/json' } });
+  if (!response.ok) throw new Error(`FLYR responded ${response.status}`);
+  const body = await response.json();
+  const rows = Array.isArray(body?.data) ? body.data : [];
+  return rows.map(mapRow);
+}
+
+// Lower-case and strip diacritics so "Cancun" matches "Cancún", etc.
+function normalize(value) {
+  return String(value).trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+}
+
+function matchLocation(arg, code, city) {
+  if (!hasText(arg)) return true;
+  const a = normalize(arg);
+  if (code && a === code.toLowerCase()) return true;
+  return Boolean(city) && normalize(city).includes(a);
+}
+
+function filterRecords(records, args) {
+  return records.filter((r) => matchLocation(args.origin, r.originCode, r.originCity)
+    && matchLocation(args.destination, r.destCode, r.destCity));
+}
+
+// --- Rendering ------------------------------------------------------------
 
 function buildRecap(args, uid) {
   const header = el('header', 'search-recap');
@@ -157,12 +211,20 @@ function buildRecap(args, uid) {
 }
 
 function buildCard(record, index, bridge, uid) {
+  const connected = Boolean(bridge?.isConnected);
   const card = el('li', 'option-card');
   const nameId = `${uid}-option-name-${index + 1}`;
 
+  const stub = el('div', 'option-stub');
   if (hasText(record.id)) {
-    const stub = el('div', 'option-stub');
-    stub.append(el('span', 'stub-label', 'Option'), el('span', 'option-code', record.id));
+    stub.append(el('span', 'stub-label', 'Route'), el('span', 'option-code', record.id));
+  }
+  if (hasText(record.price)) {
+    const price = el('span', 'option-price');
+    price.append(hidden('Lowest fare '), el('span', '', record.price));
+    stub.append(price);
+  }
+  if (stub.children.length) {
     card.append(stub);
     const perf = el('div', 'option-perf');
     perf.setAttribute('aria-hidden', 'true');
@@ -179,46 +241,39 @@ function buildCard(record, index, bridge, uid) {
   if (hasText(record.description)) {
     body.append(el('p', 'option-description', record.description));
   }
-  const features = Array.isArray(record.features) ? record.features.filter(hasText) : [];
-  if (features.length) {
-    const list = el('ul', 'option-features');
-    list.setAttribute('aria-label', 'Features');
-    features.forEach((feature) => {
-      const item = el('li', 'option-feature');
-      item.append(icon('feature-icon', 'M3.5 8.5l3 3 6-7'), el('span', '', feature));
-      list.append(item);
-    });
-    body.append(list);
-  }
   card.append(body);
 
   const actions = el('div', 'option-actions');
-  const button = el('button', 'button-primary', 'View option');
-  button.type = 'button';
-  if (hasText(record.id)) button.dataset.optionId = String(record.id);
-  const label = hasText(record.name) ? record.name : record.id;
-  if (hasText(label)) button.setAttribute('aria-label', `View option ${label}`);
-  button.addEventListener('click', () => {
-    if (!bridge?.isConnected) return;
-    const parts = [];
-    if (hasText(record.name)) parts.push(record.name);
-    if (hasText(record.id)) parts.push(`(option ${record.id})`);
-    bridge.sendMessage(`View flight option ${parts.join(' ')}`.trim());
-  });
-  actions.append(button);
-  card.append(actions);
+  if (hasText(record.source_url)) {
+    const link = el('a', 'button-primary', 'Book on WestJet');
+    link.href = record.source_url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    const label = hasText(record.name) ? record.name : record.id;
+    if (hasText(label)) link.setAttribute('aria-label', `Book ${label} on WestJet`);
+    actions.append(link);
+  }
+  // Inside the LLM host, also offer a drill-in that continues the conversation.
+  if (connected) {
+    const button = el('button', 'button-secondary', 'View details');
+    button.type = 'button';
+    if (hasText(record.id)) button.dataset.optionId = String(record.id);
+    const label = hasText(record.name) ? record.name : record.id;
+    if (hasText(label)) button.setAttribute('aria-label', `View option ${label}`);
+    button.addEventListener('click', () => {
+      if (!bridge?.isConnected) return;
+      const parts = [];
+      if (hasText(record.name)) parts.push(record.name);
+      if (hasText(record.id)) parts.push(`(${record.id})`);
+      bridge.sendMessage(`View flight option ${parts.join(' ')}`.trim());
+    });
+    actions.append(button);
+  }
+  if (actions.children.length) card.append(actions);
   return card;
 }
 
-function render(block, data, bridge, uid) {
-  const args = data && typeof data.arguments === 'object' && data.arguments ? data.arguments : {};
-  const records = Array.isArray(data?.records) ? data.records.filter((r) => r && typeof r === 'object') : [];
-
-  const root = el('div', 'flight-results');
-  root.setAttribute('role', 'region');
-  root.setAttribute('aria-labelledby', `${uid}-route-title`);
-  root.append(buildRecap(args, uid));
-
+function renderResults(container, args, records, uid, bridge) {
   const section = el('section', 'results');
   section.setAttribute('aria-labelledby', `${uid}-results-count`);
   const head = el('div', 'results-head');
@@ -229,7 +284,11 @@ function render(block, data, bridge, uid) {
 
   if (!records.length) {
     count.textContent = 'No options';
-    section.append(el('p', 'empty-state', 'No flight options came back for this search.'));
+    const hasRoute = hasText(args.origin) && hasText(args.destination);
+    const message = hasRoute
+      ? `WestJet doesn’t serve ${args.origin} → ${args.destination}. Try a different route.`
+      : 'No flight options came back for this search.';
+    section.append(el('p', 'empty-state', message));
   } else {
     count.textContent = `${records.length} ${records.length === 1 ? 'option' : 'options'}`;
     if (records.length > 1) {
@@ -243,8 +302,113 @@ function render(block, data, bridge, uid) {
     records.forEach((record, index) => carousel.append(buildCard(record, index, bridge, uid)));
     section.append(carousel);
   }
-  root.append(section);
-  block.replaceChildren(root);
+  container.replaceChildren(section);
+}
+
+// --- Web search form ------------------------------------------------------
+
+function field(labelText, control) {
+  const wrap = el('label', 'form-field');
+  wrap.append(el('span', 'field-label', labelText), control);
+  return wrap;
+}
+
+function buildForm(args, onSubmit) {
+  const form = el('form', 'search-form');
+  form.setAttribute('aria-label', 'Search WestJet flights');
+
+  const origin = el('input');
+  origin.type = 'text';
+  origin.name = 'origin';
+  origin.value = args.origin || '';
+  origin.placeholder = 'e.g. YYZ or Toronto';
+  origin.autocomplete = 'off';
+
+  const destination = el('input');
+  destination.type = 'text';
+  destination.name = 'destination';
+  destination.value = args.destination || '';
+  destination.placeholder = 'e.g. CUN or Cancun';
+  destination.autocomplete = 'off';
+
+  const depart = el('input');
+  depart.type = 'date';
+  depart.name = 'departure_date';
+  depart.value = args.departure_date || '';
+
+  const back = el('input');
+  back.type = 'date';
+  back.name = 'return_date';
+  back.value = args.return_date || '';
+
+  const trip = el('select');
+  trip.name = 'trip_type';
+  [['round trip', 'Round trip'], ['one way', 'One way']].forEach(([value, text]) => {
+    const option = el('option', '', text);
+    option.value = value;
+    if ((args.trip_type || 'round trip') === value) option.selected = true;
+    trip.append(option);
+  });
+
+  const adults = el('input');
+  adults.type = 'number';
+  adults.name = 'adult_count';
+  adults.min = '1';
+  adults.max = '9';
+  adults.value = String(args.adult_count || 1);
+
+  const points = el('input');
+  points.type = 'checkbox';
+  points.name = 'use_points';
+  points.checked = args.use_points === true;
+  const pointsField = el('label', 'form-field form-field-inline');
+  pointsField.append(points, el('span', 'field-label', 'Use points'));
+
+  const grid = el('div', 'form-grid');
+  grid.append(
+    field('From', origin),
+    field('To', destination),
+    field('Departure', depart),
+    field('Return', back),
+    field('Trip type', trip),
+    field('Adults', adults),
+    pointsField,
+  );
+
+  const submit = el('button', 'button-primary', 'Search flights');
+  submit.type = 'submit';
+  const formActions = el('div', 'form-actions');
+  formActions.append(submit);
+
+  form.append(grid, formActions);
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    onSubmit({
+      origin: origin.value.trim(),
+      destination: destination.value.trim(),
+      departure_date: depart.value,
+      return_date: back.value,
+      trip_type: trip.value,
+      adult_count: Number(adults.value) || 1,
+      use_points: points.checked,
+    });
+  });
+  return form;
+}
+
+// --- Orchestration --------------------------------------------------------
+
+async function runSearch(resultsHost, args, uid, bridge) {
+  resultsHost.replaceChildren(el('p', 'results-status', 'Searching WestJet fares…'));
+  try {
+    const all = await fetchFlyrRecords();
+    const matched = filterRecords(all, args);
+    renderResults(resultsHost, args, matched, uid, bridge);
+  } catch (err) {
+    resultsHost.replaceChildren(
+      el('p', 'empty-state', 'We couldn’t reach WestJet fares right now. Please try again.'),
+    );
+  }
 }
 
 export default async function decorate(block, bridge) {
@@ -260,13 +424,36 @@ export default async function decorate(block, bridge) {
     });
   }
 
-  let data = PREVIEW_RESULT;
-  if (live) {
-    const result = await bridge.toolResult;
-    data = result?.structuredContent ?? { arguments: {}, records: [] };
-  }
   instanceCount += 1;
-  render(block, data, bridge, `fwf${instanceCount}`);
+  const uid = `fwf${instanceCount}`;
+
+  const root = el('div', 'flight-results');
+  root.setAttribute('role', 'region');
+  root.setAttribute('aria-labelledby', `${uid}-route-title`);
+  const resultsHost = el('div', 'results-host');
+
+  if (live) {
+    // LLM path: arguments come from the tool result; no form.
+    const toolResult = await bridge.toolResult;
+    const args = toolResult?.structuredContent?.arguments || {};
+    root.append(buildRecap(args, uid), resultsHost);
+    block.replaceChildren(root);
+    await runSearch(resultsHost, args, uid, bridge);
+  } else {
+    // Direct web / preview path: show a form seeded with sensible defaults and
+    // run that search immediately so the widget isn't empty.
+    const args = defaultArgs();
+    const recapHost = el('div', 'recap-host');
+    const rerender = (nextArgs) => {
+      recapHost.replaceChildren(buildRecap(nextArgs, uid));
+      runSearch(resultsHost, nextArgs, uid, bridge);
+    };
+    const form = buildForm(args, rerender);
+    recapHost.append(buildRecap(args, uid));
+    root.append(form, recapHost, resultsHost);
+    block.replaceChildren(root);
+    await runSearch(resultsHost, args, uid, bridge);
+  }
 
   if (connected && typeof bridge.autoResize === 'function') {
     bridge.autoResize(block);
