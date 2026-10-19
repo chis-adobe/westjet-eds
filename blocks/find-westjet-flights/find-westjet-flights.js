@@ -191,6 +191,14 @@ function buildCard(record, index, bridge, uid) {
     link.rel = 'noopener noreferrer';
     const label = hasText(record.name) ? record.name : record.id;
     if (hasText(label)) link.setAttribute('aria-label', `Book ${label} on WestJet`);
+    // In the LLM host the iframe sandbox blocks plain anchor navigation, so ask
+    // the host to open the URL. The native href still works on the direct web.
+    if (connected && typeof bridge.openLink === 'function') {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        Promise.resolve(bridge.openLink(record.source_url)).catch(() => {});
+      });
+    }
     actions.append(link);
   }
   // Inside the LLM host, also offer a drill-in that continues the conversation.
