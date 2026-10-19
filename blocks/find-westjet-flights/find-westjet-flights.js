@@ -433,12 +433,19 @@ export default async function decorate(block, bridge) {
   const resultsHost = el('div', 'results-host');
 
   if (live) {
-    // LLM path: arguments come from the tool result; no form.
+    // LLM path: the action fetches FLYR server-side and returns mapped records,
+    // so the widget renders without needing its own (CSP/sandbox-limited) fetch.
     const toolResult = await bridge.toolResult;
-    const args = toolResult?.structuredContent?.arguments || {};
+    const structured = toolResult?.structuredContent || {};
+    const args = structured.arguments || {};
     root.append(buildRecap(args, uid), resultsHost);
     block.replaceChildren(root);
-    await runSearch(resultsHost, args, uid, bridge);
+    if (Array.isArray(structured.records)) {
+      renderResults(resultsHost, args, structured.records, uid, bridge);
+    } else {
+      // Action omitted records (e.g. it couldn't reach FLYR) — retry here.
+      await runSearch(resultsHost, args, uid, bridge);
+    }
   } else {
     // Direct web / preview path: show a form seeded with sensible defaults and
     // run that search immediately so the widget isn't empty.
