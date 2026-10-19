@@ -1,12 +1,7 @@
 {
   "arguments": {
     "origin": "YYZ",
-    "destination": "CUN",
-    "departure_date": "2026-11-12",
-    "return_date": "2026-11-16",
-    "trip_type": "round trip",
-    "adult_count": 2,
-    "use_points": false
+    "destination": "CUN"
   },
   "records": []
 }
