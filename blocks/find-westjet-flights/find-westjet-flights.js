@@ -7,30 +7,19 @@ const FLYR_URL = `${FLYR_BASE}/v2/tables/${FLYR_TABLE_ID}`;
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let instanceCount = 0;
-const NBSP = ' ';
 
-// Default search used for the direct-web/preview path (no LLM conversation to
-// supply arguments). Dates are computed at render time so they always sit in the
-// near future. Toronto (YYZ) -> Cancun (CUN) is a route the fares table serves.
-function iso(date) {
-  return date.toISOString().slice(0, 10);
+// This is a lowest-fares deals table: each route has a fixed cheapest fare with
+// its own travel dates. Only origin/destination are inputs — there is no date,
+// pax or points search. Default route for the direct-web/preview path:
+// Toronto (YYZ) -> Cancun (CUN), a route the table serves.
+function defaultArgs() {
+  return { origin: 'YYZ', destination: 'CUN' };
 }
 
-function defaultArgs() {
-  const now = new Date();
-  const depart = new Date(now);
-  depart.setUTCDate(depart.getUTCDate() + 14);
-  const back = new Date(now);
-  back.setUTCDate(back.getUTCDate() + 28);
-  return {
-    origin: 'YYZ',
-    destination: 'CUN',
-    departure_date: iso(depart),
-    return_date: iso(back),
-    trip_type: 'round trip',
-    adult_count: 2,
-    use_points: false,
-  };
+function priceValue(record) {
+  if (!record || record.price === undefined || record.price === null) return Number.POSITIVE_INFINITY;
+  const n = Number(String(record.price).replace(/[^\d.]/g, ''));
+  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
 }
 
 function el(tag, className, text) {
@@ -60,29 +49,8 @@ function hasText(value) {
   return value !== undefined && value !== null && String(value).trim() !== '';
 }
 
-function formatDate(value) {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value).trim());
-  if (!match) return String(value);
-  const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
-  if (Number.isNaN(date.getTime())) return String(value);
-  const weekday = date.toLocaleDateString('en-CA', { weekday: 'short', timeZone: 'UTC' });
-  const month = date.toLocaleDateString('en-CA', { month: 'short', timeZone: 'UTC' }).replace('.', '');
-  return `${weekday}, ${month} ${date.getUTCDate()}`;
-}
-
-function timeEl(value) {
-  const node = el('time', '', formatDate(value));
-  node.setAttribute('datetime', String(value));
-  return node;
-}
-
 function hidden(text) {
   return el('span', 'visually-hidden', text);
-}
-
-function capitalize(value) {
-  const text = String(value).trim();
-  return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 // --- FLYR fetch + mapping -------------------------------------------------
@@ -175,38 +143,8 @@ function buildRecap(args, uid) {
   }
   header.append(title);
 
-  const chips = el('ul', 'recap-chips');
-  chips.setAttribute('aria-label', 'Your search');
-  if (hasText(args.departure_date) || hasText(args.return_date)) {
-    const chip = el('li', 'recap-chip');
-    if (hasText(args.departure_date)) {
-      chip.append(hidden(`Departing${NBSP}`), timeEl(args.departure_date));
-    }
-    if (hasText(args.departure_date) && hasText(args.return_date)) {
-      chip.append(document.createTextNode(`${NBSP}–${NBSP}`));
-    }
-    if (hasText(args.return_date)) {
-      chip.append(hidden(`returning${NBSP}`), timeEl(args.return_date));
-    }
-    chips.append(chip);
-  }
-  if (hasText(args.trip_type)) {
-    const chip = el('li', 'recap-chip');
-    chip.append(el('span', 'chip-strong', capitalize(args.trip_type)));
-    chips.append(chip);
-  }
-  const adults = Number(args.adult_count);
-  if (args.adult_count !== undefined && args.adult_count !== null && Number.isFinite(adults)) {
-    const chip = el('li', 'recap-chip');
-    chip.append(el('span', 'chip-strong', `${adults} ${adults === 1 ? 'adult' : 'adults'}`));
-    chips.append(chip);
-  }
-  if (args.use_points === true) {
-    const chip = el('li', 'recap-chip');
-    chip.append(el('span', 'chip-strong', 'Points'));
-    chips.append(chip);
-  }
-  if (chips.children.length) header.append(chips);
+  const subtitle = el('p', 'recap-subtitle', 'Lowest published round-trip fares');
+  header.append(subtitle);
   return header;
 }
 
@@ -217,11 +155,11 @@ function buildCard(record, index, bridge, uid) {
 
   const stub = el('div', 'option-stub');
   if (hasText(record.id)) {
-    stub.append(el('span', 'stub-label', 'Route'), el('span', 'option-code', record.id));
+    stub.append(el('span', 'stub-label', 'Lowest fare'), el('span', 'option-code', record.id));
   }
   if (hasText(record.price)) {
     const price = el('span', 'option-price');
-    price.append(hidden('Lowest fare '), el('span', '', record.price));
+    price.append(hidden('from '), el('span', '', record.price));
     stub.append(price);
   }
   if (stub.children.length) {
@@ -239,7 +177,9 @@ function buildCard(record, index, bridge, uid) {
     card.setAttribute('aria-labelledby', nameId);
   }
   if (hasText(record.description)) {
-    body.append(el('p', 'option-description', record.description));
+    const dates = el('p', 'option-description');
+    dates.append(el('span', 'dates-caption', 'Cheapest dates:'), document.createTextNode(` ${record.description}`));
+    body.append(dates);
   }
   card.append(body);
 
@@ -274,6 +214,7 @@ function buildCard(record, index, bridge, uid) {
 }
 
 function renderResults(container, args, records, uid, bridge) {
+  const sorted = [...records].sort((a, b) => priceValue(a) - priceValue(b));
   const section = el('section', 'results');
   section.setAttribute('aria-labelledby', `${uid}-results-count`);
   const head = el('div', 'results-head');
@@ -282,24 +223,24 @@ function renderResults(container, args, records, uid, bridge) {
   head.append(count);
   section.append(head);
 
-  if (!records.length) {
-    count.textContent = 'No options';
+  if (!sorted.length) {
+    count.textContent = 'No fares';
     const hasRoute = hasText(args.origin) && hasText(args.destination);
     const message = hasRoute
       ? `WestJet doesn’t serve ${args.origin} → ${args.destination}. Try a different route.`
-      : 'No flight options came back for this search.';
+      : 'No fares came back for this search.';
     section.append(el('p', 'empty-state', message));
   } else {
-    count.textContent = `${records.length} ${records.length === 1 ? 'option' : 'options'}`;
-    if (records.length > 1) {
-      const hint = el('p', 'scroll-hint', 'Scroll for more options');
+    count.textContent = `${sorted.length} ${sorted.length === 1 ? 'fare' : 'fares'}`;
+    if (sorted.length > 1) {
+      const hint = el('p', 'scroll-hint', 'Cheapest first — scroll for more');
       hint.setAttribute('aria-hidden', 'true');
       head.append(hint);
     }
     const carousel = el('ul', 'option-carousel');
     carousel.tabIndex = 0;
-    carousel.setAttribute('aria-label', 'Flight options, scroll horizontally');
-    records.forEach((record, index) => carousel.append(buildCard(record, index, bridge, uid)));
+    carousel.setAttribute('aria-label', 'Lowest fares, scroll horizontally');
+    sorted.forEach((record, index) => carousel.append(buildCard(record, index, bridge, uid)));
     section.append(carousel);
   }
   container.replaceChildren(section);
@@ -331,51 +272,13 @@ function buildForm(args, onSubmit) {
   destination.placeholder = 'e.g. CUN or Cancun';
   destination.autocomplete = 'off';
 
-  const depart = el('input');
-  depart.type = 'date';
-  depart.name = 'departure_date';
-  depart.value = args.departure_date || '';
-
-  const back = el('input');
-  back.type = 'date';
-  back.name = 'return_date';
-  back.value = args.return_date || '';
-
-  const trip = el('select');
-  trip.name = 'trip_type';
-  [['round trip', 'Round trip'], ['one way', 'One way']].forEach(([value, text]) => {
-    const option = el('option', '', text);
-    option.value = value;
-    if ((args.trip_type || 'round trip') === value) option.selected = true;
-    trip.append(option);
-  });
-
-  const adults = el('input');
-  adults.type = 'number';
-  adults.name = 'adult_count';
-  adults.min = '1';
-  adults.max = '9';
-  adults.value = String(args.adult_count || 1);
-
-  const points = el('input');
-  points.type = 'checkbox';
-  points.name = 'use_points';
-  points.checked = args.use_points === true;
-  const pointsField = el('label', 'form-field form-field-inline');
-  pointsField.append(points, el('span', 'field-label', 'Use points'));
-
   const grid = el('div', 'form-grid');
   grid.append(
     field('From', origin),
     field('To', destination),
-    field('Departure', depart),
-    field('Return', back),
-    field('Trip type', trip),
-    field('Adults', adults),
-    pointsField,
   );
 
-  const submit = el('button', 'button-primary', 'Search flights');
+  const submit = el('button', 'button-primary', 'Find lowest fares');
   submit.type = 'submit';
   const formActions = el('div', 'form-actions');
   formActions.append(submit);
@@ -386,11 +289,6 @@ function buildForm(args, onSubmit) {
     onSubmit({
       origin: origin.value.trim(),
       destination: destination.value.trim(),
-      departure_date: depart.value,
-      return_date: back.value,
-      trip_type: trip.value,
-      adult_count: Number(adults.value) || 1,
-      use_points: points.checked,
     });
   });
   return form;
